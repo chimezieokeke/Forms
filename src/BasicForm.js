@@ -1,5 +1,5 @@
 import React from 'react';
-import App from './App.js'
+import './App.css';
 
 class BasicForm extends React.Component {
   static displayName = "basic-input";
@@ -14,7 +14,8 @@ class BasicForm extends React.Component {
       name: '',
       email: '',
       number: ''
-    }
+    },
+    submitted: false
   };
 
   // Validation functions
@@ -91,7 +92,8 @@ class BasicForm extends React.Component {
       errors: {
         ...this.state.errors,
         name: ''
-      }
+      },
+      submitted: true
     });
   };
 
@@ -114,7 +116,8 @@ class BasicForm extends React.Component {
       errors: {
         ...this.state.errors,
         email: ''
-      }
+      },
+      submitted: true
     });
   };
 
@@ -137,83 +140,125 @@ class BasicForm extends React.Component {
       errors: {
         ...this.state.errors,
         number: ''
-      }
+      },
+      submitted: true
     });
   };
 
-  // Check if any form has errors
   hasErrors = () => {
     return Object.values(this.state.errors).some(error => error !== '');
   };
 
   render() {
     return (
-      <div>
-        <div class='title'><h1>Sign Up Sheet</h1></div>
-
-        <form onSubmit={this.onNameSubmit}>
-          <input
-            placeholder='Enter your name'
-            value={this.state.currentName}
-            onChange={this.handleNameChange}
-          />
-          <input 
-            type='submit' 
-            disabled={!!this.state.errors.name || !this.state.currentName}
-          />
-          {this.state.errors.name && <div style={{color: 'red'}}>{this.state.errors.name}</div>}
-        </form>
-        
-        <form onSubmit={this.onEmailSubmit}>
-          <input
-            placeholder='Enter your email'
-            value={this.state.currentEmail}
-            onChange={this.handleEmailChange}
-          />
-          <input 
-            type='submit' 
-            disabled={!!this.state.errors.email || !this.state.currentEmail}
-          />
-          {this.state.errors.email && <div style={{color: 'red'}}>{this.state.errors.email}</div>}
-        </form>        
-        
-        <form onSubmit={this.onNumberSubmit}>
-          <input
-            placeholder='Enter your phone number (10 digits)'
-            value={this.state.currentNumber}
-            onChange={this.handleNumberChange}
-          />
-          <input 
-            type='submit' 
-            disabled={!!this.state.errors.number || !this.state.currentNumber}
-          />
-          {this.state.errors.number && <div style={{color: 'red'}}>{this.state.errors.number}</div>}
-        </form>
-
-        <div class='NameTag'>
-          <h3>Names</h3>
-          <ul>
-            {this.state.names.map((name, i) => <li key={i}>{name}</li>)}
-          </ul>
+      <div className="form-container">
+        <div className='header'>
+          <h1>Availbility Slot</h1>
+          <p>Enter your name below to enter the Chief Chimi Special</p>
         </div>
         
-        <div>
-          <h3>Emails</h3>
-          <ul>
-            {this.state.emails.map((email, i) => <li key={i}>{email}</li>)}
-          </ul>
-        </div>
-        
-        <div>
-          <h3>Numbers</h3>
-          <ul>
-            {this.state.numbers.map((number, i) => <li key={i}>{number}</li>)}
-          </ul>
+        <div className="forms-section">
+          <div className="input-forms">
+            <form onSubmit={this.onNameSubmit} className="form-card">
+              <h3>Name</h3>
+              <input
+                className="form-input"
+                placeholder='John Doe'
+                value={this.state.currentName}
+                onChange={this.handleNameChange}
+              />
+              <button 
+                type='submit' 
+                className="submit-btn"
+                disabled={!!this.state.errors.name || !this.state.currentName}
+              >
+                Add Name
+              </button>
+              {this.state.errors.name && <div className="error-message">{this.state.errors.name}</div>}
+            </form>
+            
+            <form onSubmit={this.onEmailSubmit} className="form-card">
+              <h3>Email</h3>
+              <input
+                className="form-input"
+                placeholder='john@example.com'
+                value={this.state.currentEmail}
+                onChange={this.handleEmailChange}
+              />
+              <button 
+                type='submit' 
+                className="submit-btn"
+                disabled={!!this.state.errors.email || !this.state.currentEmail}
+              >
+                Add Email
+              </button>
+              {this.state.errors.email && <div className="error-message">{this.state.errors.email}</div>}
+            </form>        
+            
+            <form onSubmit={this.onNumberSubmit} className="form-card">
+              <h3>Phone Number</h3>
+              <input
+                className="form-input"
+                placeholder='1234567890'
+                value={this.state.currentNumber}
+                onChange={this.handleNumberChange}
+              />
+              <button 
+                type='submit' 
+                className="submit-btn"
+                disabled={!!this.state.errors.number || !this.state.currentNumber}
+              >
+                Add Number
+              </button>
+              {this.state.errors.number && <div className="error-message">{this.state.errors.number}</div>}
+            </form>
+          </div>
+
+          <div className="results-section">
+            <div className="results-card">
+              <h3>Registered Names</h3>
+              <ul className="results-list">
+                {this.state.names.length > 0 ? (
+                  this.state.names.map((name, i) => <li key={i}>{name}</li>)
+                ) : (
+                  <li className="empty-message">No names submitted yet</li>
+                )}
+              </ul>
+            </div>
+            
+            <div className="results-card">
+              <h3>Registered Emails</h3>
+              <ul className="results-list">
+                {this.state.emails.length > 0 ? (
+                  this.state.emails.map((email, i) => <li key={i}>{email}</li>)
+                ) : (
+                  <li className="empty-message">No emails submitted yet</li>
+                )}
+              </ul>
+            </div>
+            
+            <div className="results-card">
+              <h3>Registered Numbers</h3>
+              <ul className="results-list">
+                {this.state.numbers.length > 0 ? (
+                  this.state.numbers.map((number, i) => <li key={i}>{number}</li>)
+                ) : (
+                  <li className="empty-message">No numbers submitted yet</li>
+                )}
+              </ul>
+            </div>
+          </div>
         </div>
 
         {this.hasErrors() && (
-          <div style={{color: 'red', marginTop: '20px'}}>
+          <div className="error-banner">
             Please fix all errors before submitting forms.
+          </div>
+        )}
+
+        {this.state.submitted && !this.hasErrors() && (
+          <div className="success-banner">
+            Thank you for your submission!
           </div>
         )}
       </div>
